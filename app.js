@@ -8,6 +8,7 @@ let btn = document.getElementById("addNote");
 btn.addEventListener('click', () => {
     // console.log("Button was clicked")
     let text = document.getElementById("textArea");
+    let title = document.getElementById("title");
     let notes = localStorage.getItem("notes");
 
     if (notes == null) {
@@ -16,10 +17,17 @@ btn.addEventListener('click', () => {
     else {
         noteArray = JSON.parse(notes);
     }
+    let notesObj = {
+        mytitle : title.value,
+        textNote : text.value 
+    }
+    //console.log(notesObj);
+    //console.log(title);
+    noteArray.push(notesObj);
 
-    noteArray.push(text.value);
     localStorage.setItem("notes", JSON.stringify(noteArray));
     text.value = "";
+    title.value = "";
 
     showNotes();
 })
@@ -38,8 +46,8 @@ function showNotes() {
     noteArray.forEach((element, index) => {
         html += `<div class="noteCard card mx-2 my-2" style="width: 18rem;border-radius: 1.2rem;" >
         <div class="card-body d-flex" style="align-items: center;flex-direction: column;">
-            <h5 class="card-title" style="border-bottom: 0.5px solid black;">Note ${index+1}</h5>
-            <p class="card-text">${element}</p>
+            <h5 class="card-title" style="border-bottom: 0.5px solid black;">${element.mytitle}</h5>
+            <p class="card-text">${element.textNote}</p>
             <button id="${index}" onclick="deleteNote(this.id)" class="btn btn-danger" >Delete</a>
         </div>
     </div>`;
